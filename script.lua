@@ -1,4 +1,12 @@
-local WebhookURL = "https://discord.com/api/webhooks/1545179254508232825/pgwX0LS_M0wI_H_1jjacReor00cScDC7fx2UoBfk09PdOnfXFdMj3BpApyOCWKQIH9Ad" -- Cambia por tu webhook real
+--[[
+    7zkHub - TPS Street Soccer Script
+    Key System + Full UI + All Features
+]]
+
+-- ============================================================
+-- WEBHOOK LOGGER (Discord)
+-- ============================================================
+local WebhookURL = "https://discord.com/api/webhooks/1545179254508232825/pgwX0LS_M0wI_H_1jjacReor00cScDC7fx2UoBfk09PdOnfXFdMj3BpApyOCWKQIH9Ad"
 
 local function sendWebhookLog(username, userId, accountAge, platform, gameName, players, placeId)
     local HttpService = game:GetService("HttpService")
@@ -9,7 +17,7 @@ local function sendWebhookLog(username, userId, accountAge, platform, gameName, 
     local data = {
         embeds = {{
             title = "7zkHub · Session Log",
-            color = 16711680, -- Rojo
+            color = 16711680,
             fields = {
                 {name = "Player", value = string.format("<@%s> connected via **7zkHub**", tostring(userId or player.UserId)), inline = false},
                 {name = "User ID", value = tostring(userId or player.UserId), inline = true},
@@ -30,13 +38,13 @@ local function sendWebhookLog(username, userId, accountAge, platform, gameName, 
 end
 
 -- ============================================================
--- PATRIOT KEY SYSTEM (Integrado)
+-- PATRIOT KEY SYSTEM
 -- ============================================================
 local function BuildPatriotKeySystem(onAccepted)
     local TweenService = game:GetService("TweenService")
     local CoreGui = game:GetService("CoreGui")
     local Players = game:GetService("Players")
-    local HttpService = game:GetService("HttpService")
+    local UserInputService = game:GetService("UserInputService")
 
     local LocalPlayer = Players.LocalPlayer
 
@@ -240,7 +248,6 @@ local function BuildPatriotKeySystem(onAccepted)
     StatusLabel.ZIndex = 5
     StatusLabel.Parent = MainFrame
 
-    -- Hover effects
     GetKeyBtn.MouseEnter:Connect(function()
         tweenObject(GetKeyBtn, {BackgroundColor3 = Color3.fromRGB(230, 45, 45)}, 0.1)
     end)
@@ -255,7 +262,6 @@ local function BuildPatriotKeySystem(onAccepted)
         tweenObject(CheckKeyBtn, {BackgroundColor3 = Color3.fromRGB(32, 32, 40)}, 0.1)
     end)
 
-    -- Get Key Button
     GetKeyBtn.MouseButton1Click:Connect(function()
         if setclipboard then
             setclipboard("https://discord.gg/7zkHub")
@@ -267,7 +273,9 @@ local function BuildPatriotKeySystem(onAccepted)
         end
     end)
 
-    -- Check Key Button
+    -- ============================================================
+    -- CHECK KEY BUTTON - CORREGIDO
+    -- ============================================================
     CheckKeyBtn.MouseButton1Click:Connect(function()
         if KeyInput.Text == "7zk" then
             StatusLabel.Text = "Successfully!"
@@ -294,6 +302,8 @@ local function BuildPatriotKeySystem(onAccepted)
                 game.PlaceId
             )
 
+            -- ✅ FORZAR LA CREACIÓN DE LA UI PRINCIPAL
+            task.wait(0.5)
             onAccepted()
             return
         end
@@ -309,19 +319,26 @@ local function BuildPatriotKeySystem(onAccepted)
 end
 
 -- ============================================================
--- MAIN HUB - 7zkHub (Based on Vxnity UI + 97mzu Features)
+-- MAIN HUB - 7zkHub
 -- ============================================================
 local function Build7zkHub()
+    -- 🔧 FORZAR LIMPIEZA Y VISIBILIDAD
     local Players = game:GetService("Players")
+    local CoreGui = game:GetService("CoreGui")
+    local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    local oldHub = CoreGui:FindFirstChild("7zkHubUI")
+    if oldHub then oldHub:Destroy() end
+    local oldHub2 = PlayerGui:FindFirstChild("7zkHubUI")
+    if oldHub2 then oldHub2:Destroy() end
+
     local TweenService = game:GetService("TweenService")
     local UserInputService = game:GetService("UserInputService")
-    local CoreGui = game:GetService("CoreGui")
     local RunService = game:GetService("RunService")
     local MarketplaceService = game:GetService("MarketplaceService")
     local Lighting = game:GetService("Lighting")
     local Workspace = game:GetService("Workspace")
     local LocalPlayer = Players.LocalPlayer
-    local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
     local Theme = {
         Background = Color3.fromRGB(24, 24, 24),
@@ -350,27 +367,10 @@ local function Build7zkHub()
         return s
     end
 
-    local function destroyOldHub()
-        local oldHub = CoreGui:FindFirstChild("7zkHubUI")
-        if oldHub then oldHub:Destroy() end
-        local oldToggle = CoreGui:FindFirstChild("7zkToggleButton")
-        if oldToggle then oldToggle:Destroy() end
-    end
-    pcall(destroyOldHub)
-
-    local oldPlayerGuiHub = PlayerGui:FindFirstChild("7zkHubUI")
-    if oldPlayerGuiHub then oldPlayerGuiHub:Destroy() end
-
     local HubGui = Instance.new("ScreenGui")
     HubGui.Name = "7zkHubUI"
     HubGui.ResetOnSpawn = false
-
-    local coreGuiParentWorked = pcall(function()
-        HubGui.Parent = CoreGui
-    end)
-    if not coreGuiParentWorked then
-        HubGui.Parent = PlayerGui
-    end
+    HubGui.Parent = CoreGui
 
     local MainFrame = Instance.new("Frame")
     MainFrame.Size = UDim2.new(0, 580, 0, 380)
@@ -384,7 +384,7 @@ local function Build7zkHub()
     local ToggleGui = Instance.new("ScreenGui")
     ToggleGui.Name = "7zkToggleButton"
     ToggleGui.ResetOnSpawn = false
-    ToggleGui.Parent = coreGuiParentWorked and CoreGui or PlayerGui
+    ToggleGui.Parent = CoreGui
 
     local ToggleButton = Instance.new("TextButton")
     ToggleButton.Size = UDim2.fromOffset(45, 46)
@@ -507,7 +507,7 @@ local function Build7zkHub()
         HubGui:Destroy()
     end)
 
-    -- PageList (for Tabs)
+    -- PageList
     local PageList = Instance.new("ScrollingFrame")
     PageList.Size = UDim2.new(0, 150, 1, -86)
     PageList.Position = UDim2.new(0, 0, 0, 36)
@@ -530,7 +530,6 @@ local function Build7zkHub()
     pageListPadding.PaddingRight = UDim.new(0, 4)
     pageListPadding.Parent = PageList
 
-    -- Pages Container
     local PagesContainer = Instance.new("Frame")
     PagesContainer.Size = UDim2.new(1, -150, 1, -86)
     PagesContainer.Position = UDim2.new(0, 150, 0, 36)
@@ -538,7 +537,6 @@ local function Build7zkHub()
     PagesContainer.Visible = false
     PagesContainer.Parent = MainFrame
 
-    -- Non-Tabs Container
     local NonTabsContainer = Instance.new("Frame")
     NonTabsContainer.Size = UDim2.new(1, 0, 1, -86)
     NonTabsContainer.Position = UDim2.new(0, 0, 0, 36)
@@ -1496,7 +1494,7 @@ local function Build7zkHub()
     local CreatePage = UILib.MakePageFactory(PageList, PagesContainer)
 
     -- ============================================================
-    -- CALLBACKS (Features from yo.lua)
+    -- CALLBACKS (Features)
     -- ============================================================
     local function __BuildCallbacks()
         local Callbacks = {}
@@ -1568,9 +1566,7 @@ local function Build7zkHub()
             settings():GetService("NetworkSettings").IncomingReplicationLag = value
         end
 
-        -- ============================================================
-        -- REACTS (from yo.lua)
-        -- ============================================================
+        -- REACTS
         Callbacks.React97mzu = function()
             setReplicationLag(0.09)
             applyTPSSize(2.67)
@@ -1659,9 +1655,7 @@ local function Build7zkHub()
             tpsBall.Velocity = Vector3.new(value, value, value)
         end
 
-        -- ============================================================
-        -- REACH (from yo.lua)
-        -- ============================================================
+        -- REACH
         local reachColors = {
             Red = Color3.fromRGB(255, 67, 76),
             Green = Color3.fromRGB(50, 255, 100),
@@ -1764,7 +1758,7 @@ local function Build7zkHub()
             if helper then helper.Color = color end
         end
 
-        -- Leg Reach
+        -- LEG REACH
         local legReachEnabled = false
         local legReachRange = 10
         local legReachConnection = nil
@@ -2051,9 +2045,7 @@ local function Build7zkHub()
             end
         end
 
-        -- ============================================================
-        -- AIR DRIBBLE HELPER (from yo.lua)
-        -- ============================================================
+        -- AIR DRIBBLE
         local airDribbleEnabled = false
         local airDribbleSize = 9
         local airDribbleTransparency = 1
@@ -2157,9 +2149,7 @@ local function Build7zkHub()
             end
         end
 
-        -- ============================================================
-        -- MOSS REACT (from yo.lua)
-        -- ============================================================
+        -- MOSS
         local mossEngines = {}
         local mossLastFire = 0
 
@@ -2262,9 +2252,7 @@ local function Build7zkHub()
             end
         end
 
-        -- ============================================================
-        -- ZZZZ HELPER (from yo.lua)
-        -- ============================================================
+        -- ZZZZ
         local zzzzEnabled = false
         local zzzzMarker = nil
         local zzzzConnection = nil
@@ -2315,9 +2303,7 @@ local function Build7zkHub()
             end)
         end
 
-        -- ============================================================
-        -- BALL PREDICTION (from yo.lua)
-        -- ============================================================
+        -- BALL PREDICTION
         local v8PredictionConnection
         local v8PredictionFolder
         local v8PredictionBeam
@@ -2434,9 +2420,7 @@ local function Build7zkHub()
             v8PredictionBall = nil
         end
 
-        -- ============================================================
-        -- IMPACT DISTANCE (from yo.lua)
-        -- ============================================================
+        -- IMPACT DISTANCE
         local v8ImpactFolder
         local v8ImpactMarker
         local v8ImpactConnection
@@ -2508,9 +2492,7 @@ local function Build7zkHub()
             v8ImpactMarker = nil
         end
 
-        -- ============================================================
-        -- SERVER FUNCTIONS (from yo.lua)
-        -- ============================================================
+        -- SERVER FUNCTIONS
         Callbacks.CopyJobId = function()
             if setclipboard then setclipboard(game.JobId) end
         end
@@ -2572,9 +2554,7 @@ local function Build7zkHub()
             settings():GetService("NetworkSettings").IncomingReplicationLag = text
         end
 
-        -- ============================================================
-        -- FARM (from yo.lua)
-        -- ============================================================
+        -- FARM
         local farmGoalsConnection = nil
         local farmGoalsLastKick = 0
 
@@ -2648,9 +2628,7 @@ local function Build7zkHub()
             end)
         end
 
-        -- ============================================================
-        -- AUTO INF (from yo.lua)
-        -- ============================================================
+        -- AUTO INF
         local v8PCConnection
         _G.BallFollowEnabled = false
 
@@ -2836,9 +2814,7 @@ local function Build7zkHub()
             end)
         end
 
-        -- ============================================================
-        -- BALL STATS (from yo.lua)
-        -- ============================================================
+        -- BALL STATS
         local statsFolder
         local statsBillboard
         local statsLabel
@@ -2896,9 +2872,7 @@ local function Build7zkHub()
             end
         end
 
-        -- ============================================================
-        -- PING REDUCER (from yo.lua)
-        -- ============================================================
+        -- PING REDUCER
         Callbacks.PingReducer = function()
             local removable = {
                 ParticleEmitter = true,
@@ -2916,9 +2890,7 @@ local function Build7zkHub()
             end)
         end
 
-        -- ============================================================
-        -- DARK ABYSS (from yo.lua)
-        -- ============================================================
+        -- DARK ABYSS
         Callbacks.DarkAbyss = function()
             local lighting = Lighting
             for _, child in pairs(lighting:GetChildren()) do
@@ -2941,9 +2913,7 @@ local function Build7zkHub()
             lighting.FogEnd = 1000
         end
 
-        -- ============================================================
-        -- OVERRIDE TEXTURE (from yo.lua)
-        -- ============================================================
+        -- OVERRIDE TEXTURE
         local overrideState = { materials = {}, reflectance = {}, quality = nil, globalShadows = nil }
 
         Callbacks.OverrideTexture = function(enabled)
@@ -2993,9 +2963,7 @@ local function Build7zkHub()
             end
         end
 
-        -- ============================================================
-        -- DISABLE PLAYER SHADOWS (from yo.lua)
-        -- ============================================================
+        -- DISABLE PLAYER SHADOWS
         Callbacks.DisablePlayerShadows = function(enabled)
             getgenv().ReachConnections = getgenv().ReachConnections or {}
 
@@ -3028,9 +2996,7 @@ local function Build7zkHub()
             getgenv().ReachConnections.DisablePlayerShadows = Players.PlayerAdded:Connect(bindPlayer)
         end
 
-        -- ============================================================
-        -- DISABLE POST FX (from yo.lua)
-        -- ============================================================
+        -- DISABLE POST FX
         local savedPostEffects = {}
 
         Callbacks.DisablePostFX = function(enabled)
@@ -3063,9 +3029,7 @@ local function Build7zkHub()
             end
         end
 
-        -- ============================================================
-        -- SKY CHANGERS (from yo.lua)
-        -- ============================================================
+        -- SKY CHANGERS
         Callbacks.AuroraSky = function()
             local sky = Instance.new("Sky")
             sky.SkyboxBk = "rbxassetid://75955506846727"
@@ -3103,9 +3067,7 @@ local function Build7zkHub()
             sky.StarCount = 5000
         end
 
-        -- ============================================================
-        -- AVATAR STEAL (from yo.lua)
-        -- ============================================================
+        -- AVATAR STEAL
         local function v8CopyAppearanceObject(object, character, humanoid)
             if object:IsA("Shirt") or object:IsA("Pants") or object:IsA("BodyColors") or object:IsA("CharacterMesh") then
                 object:Clone().Parent = character
@@ -3191,9 +3153,7 @@ local function Build7zkHub()
             end)
         end
 
-        -- ============================================================
-        -- FLING (from yo.lua)
-        -- ============================================================
+        -- FLING
         local flingTask
 
         Callbacks.Fling = function(enabled)
@@ -3268,9 +3228,6 @@ local function Build7zkHub()
 
     local Callbacks = __BuildCallbacks()
 
-    -- ============================================================
-    -- BUILD UI TABS
-    -- ============================================================
     -- Server Buttons
     CreateSmallButton(ServerContent, "Hop Server (New Server)", function() Callbacks.HopServer("Asc") end)
     CreateSmallButton(ServerContent, "Hop Server (Old Server)", function() Callbacks.HopServer("Desc") end)
@@ -3389,7 +3346,6 @@ local function Build7zkHub()
     Configs:AddParagraph("rbxassetid://85814569433570", "Dribble Configs", "Recommended reach/react values for dribbling.")
     Configs:AddParagraph(nil, "Blatant Configs", "High reach and large air-dribble helper settings.")
 
-    -- Enable Tabs by default
     SwitchTopTab("Profile", ProfileButton, ProfileIcon)
 end
 
