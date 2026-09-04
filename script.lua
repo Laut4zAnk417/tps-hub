@@ -1,8 +1,8 @@
 --[[
-    7zkHub - TPS Street Soccer Script
+    LoremmHub - TPS Street Soccer Script
+    Creador: Lorem
     UI: Shard Hub (deobfuscated.lua)
-    Key System: Patriot (clave: 7zk)
-    Métodos: yo.lua (Reach, Reacts, Air Helper, Moss, etc.)
+    Métodos: yo (1).lua (sin modificar)
 ]]
 
 -- ══════════════════════════════════════════════
@@ -27,7 +27,7 @@ local function BuildPatriotKeySystem(onAccepted)
     local function removeNamedChildren(parent)
         if not parent then return end
         for _, child in pairs(parent:GetChildren()) do
-            if child.Name == "7zkKeySystem" then
+            if child.Name == "LoremmKeySystem" then
                 child:Destroy()
             end
         end
@@ -50,7 +50,7 @@ local function BuildPatriotKeySystem(onAccepted)
     end
 
     local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Name = "7zkKeySystem"
+    ScreenGui.Name = "LoremmKeySystem"
     ScreenGui.ResetOnSpawn = false
     ScreenGui.Parent = guiParent
 
@@ -110,7 +110,7 @@ local function BuildPatriotKeySystem(onAccepted)
     WelcomeText.Size = UDim2.new(1, -85, 1, -15)
     WelcomeText.Position = UDim2.new(0, 85, 0, 15)
     WelcomeText.BackgroundTransparency = 1
-    WelcomeText.Text = "Welcome, <font color='#ff4a4a'>" .. LocalPlayer.DisplayName .. "</font>\n<font size='14' color='#888888'>7zkHub</font>"
+    WelcomeText.Text = "Welcome, <font color='#ff4a4a'>" .. LocalPlayer.DisplayName .. "</font>\n<font size='14' color='#888888'>LoremmHub</font>"
     WelcomeText.RichText = true
     WelcomeText.TextColor3 = Color3.fromRGB(255, 255, 255)
     WelcomeText.TextSize = 20
@@ -232,7 +232,7 @@ local function BuildPatriotKeySystem(onAccepted)
 
     GetKeyBtn.MouseButton1Click:Connect(function()
         if setclipboard then
-            setclipboard("https://discord.gg/7zkHub")
+            setclipboard("https://discord.gg/LoremmHub")
             StatusLabel.Text = "Discord Link Copied!"
             StatusLabel.TextColor3 = Color3.fromRGB(100, 255, 120)
             StatusLabel.TextTransparency = 0
@@ -270,7 +270,7 @@ end
 -- ══════════════════════════════════════════════
 --  SHARD HUB UI (deobfuscated.lua)
 -- ══════════════════════════════════════════════
-local function Build7zkHub()
+local function BuildLoremmHub()
     -- ══════════════════════════════════════════════
     --  SERVICES & LOCALS
     -- ══════════════════════════════════════════════
@@ -298,10 +298,10 @@ local function Build7zkHub()
     --  WINDOW
     -- ══════════════════════════════════════════════
     local Window = ShardUI:CreateWindow({
-        Title = "7zkHub",
+        Title = "LoremmHub",
         Icon = "zap",
-        Author = "7zk",
-        Folder = "7zkHub",
+        Author = "Lorem",
+        Folder = "LoremmHub",
         Size = UDim2.fromOffset(580, 430),
         Transparent = true,
         Theme = "Dark",
@@ -310,7 +310,7 @@ local function Build7zkHub()
         NewElements = true,
         OpenButton = {
             Enabled = true,
-            Title = "7zkHub",
+            Title = "LoremmHub",
             Draggable = true,
             OnlyMobile = false,
             CornerRadius = UDim.new(0, 14),
@@ -336,32 +336,35 @@ local function Build7zkHub()
     -- ══════════════════════════════════════════════
     --  TAB: HOME
     -- ══════════════════════════════════════════════
-    TabHome:Section({ Title = "7zkHub" })
-    TabHome:Paragraph({ Title = "Made by", Desc = "7zk Team" })
-    TabHome:Paragraph({ Title = "Discord", Desc = "discord.gg/7zkHub" })
-    TabHome:Paragraph({ Title = "Changelog", Desc = "• All features from yo.lua\n• Reach, Reacts, Air Helper, Moss, etc.\n• UI from Shard Hub" })
+    TabHome:Section({ Title = "LoremmHub" })
+    TabHome:Paragraph({ Title = "Creador", Desc = "Lorem" })
+    TabHome:Paragraph({ Title = "Discord", Desc = "discord.gg/LoremmHub" })
+    TabHome:Paragraph({ Title = "Changelog", Desc = "• Todos los métodos de yo.lua\n• UI de Shard Hub\n• Organizado en categorías" })
 
     -- ══════════════════════════════════════════════
-    --  MÉTODOS DE YO.LUA (Callbacks)
+    --  MÉTODOS DE YO.LUA (Callbacks - SIN MODIFICAR)
     -- ══════════════════════════════════════════════
     local function __BuildCallbacks()
         local Callbacks = {}
+        local RunService = game:GetService("RunService")
+        local Lighting = game:GetService("Lighting")
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
 
-        -- ─── Helpers ──────────────────────────────────
         local function getTPSBall()
-            local tpsSystem = Workspace:FindFirstChild("TPSSystem")
+            local tpsSystem = workspace:FindFirstChild("TPSSystem")
             if not tpsSystem then return nil end
             return tpsSystem:FindFirstChild("TPS")
         end
 
         local function getCharacter()
-            local character = lp.Character
+            local character = LocalPlayer.Character
             if not character or not character.Parent then return nil end
             return character
         end
 
         local function getPreferredFoot()
-            local folder = Lighting:FindFirstChild(lp.Name)
+            local folder = Lighting and Lighting:FindFirstChild(LocalPlayer.Name)
             local preferredFoot = folder and folder:FindFirstChild("PreferredFoot")
             if preferredFoot then
                 local ok, value = pcall(function() return preferredFoot.Value end)
@@ -415,7 +418,7 @@ local function Build7zkHub()
             settings():GetService("NetworkSettings").IncomingReplicationLag = value
         end
 
-        -- ─── REACTS ──────────────────────────────────
+        -- REACTS
         Callbacks.React97mzu = function()
             setReplicationLag(0.09)
             applyTPSSize(2.67)
@@ -504,7 +507,7 @@ local function Build7zkHub()
             tpsBall.Velocity = Vector3.new(value, value, value)
         end
 
-        -- ─── REACH ──────────────────────────────────
+        -- REACH
         local reachColors = {
             Red = Color3.fromRGB(255, 67, 76),
             Green = Color3.fromRGB(50, 255, 100),
@@ -518,11 +521,28 @@ local function Build7zkHub()
             Black = Color3.fromRGB(30, 30, 30),
         }
 
+        Callbacks.SetReachTransparency = function(text)
+            local value = tonumber(text)
+            if not value then return end
+            if value > 1 then value = value / 100 end
+            if getgenv().Reach then getgenv().Reach.Transparency = value end
+            local helper = workspace:FindFirstChild("BallFollowPart")
+            if helper then helper.Transparency = value end
+        end
+
+        Callbacks.SetReachColor = function(name)
+            local color = reachColors[name]
+            if not color then return end
+            if getgenv().Reach then getgenv().Reach.Color = color end
+            local helper = workspace:FindFirstChild("BallFollowPart")
+            if helper then helper.Color = color end
+        end
+
         Callbacks.SetReachSize = function(text)
             local size = tonumber(text)
             if not size then return end
             if size ~= size or size == math.huge or size <= 0 then return end
-            size = clamp(size, 0.1, 100)
+            size = math.clamp(size, 0.1, 100)
 
             if getgenv().Reach and getgenv().ReachConnection then
                 getgenv().Reach.Size = size
@@ -538,7 +558,7 @@ local function Build7zkHub()
                 Color = Color3.fromRGB(255, 67, 76),
             }
 
-            local follow = Workspace:FindFirstChild("BallFollowPart")
+            local follow = workspace:FindFirstChild("BallFollowPart")
             if not follow then
                 follow = Instance.new("Part")
             end
@@ -552,7 +572,7 @@ local function Build7zkHub()
             follow.Transparency = getgenv().Reach.Transparency
             follow.Material = Enum.Material.ForceField
             follow.Color = getgenv().Reach.Color
-            follow.Parent = Workspace
+            follow.Parent = workspace
 
             if getgenv().ReachConnection then
                 getgenv().ReachConnection:Disconnect()
@@ -590,24 +610,7 @@ local function Build7zkHub()
             end
         end
 
-        Callbacks.SetReachTransparency = function(text)
-            local value = tonumber(text)
-            if not value then return end
-            if value > 1 then value = value / 100 end
-            if getgenv().Reach then getgenv().Reach.Transparency = value end
-            local helper = Workspace:FindFirstChild("BallFollowPart")
-            if helper then helper.Transparency = value end
-        end
-
-        Callbacks.SetReachColor = function(name)
-            local color = reachColors[name]
-            if not color then return end
-            if getgenv().Reach then getgenv().Reach.Color = color end
-            local helper = Workspace:FindFirstChild("BallFollowPart")
-            if helper then helper.Color = color end
-        end
-
-        -- ─── LEG REACH ──────────────────────────────
+        -- LEG REACH
         local legReachEnabled = false
         local legReachRange = 10
         local legReachConnection = nil
@@ -740,7 +743,7 @@ local function Build7zkHub()
             end)
         end
 
-        lp.CharacterAdded:Connect(function(character)
+        LocalPlayer.CharacterAdded:Connect(function(character)
             if legReachConnection then
                 legReachConnection:Disconnect()
                 legReachConnection = nil
@@ -776,101 +779,11 @@ local function Build7zkHub()
         end
 
         Callbacks.ReachConfigGoalkeeper = function()
-            local character = getCharacter()
-            if not character then return end
-
-            local humanoid = character:FindFirstChildOfClass("Humanoid")
-            if not humanoid then return end
-
-            local kickSideRight = getPreferredFoot() == 1
-            local realLeg
-            if humanoid.RigType ~= Enum.HumanoidRigType.R6 then
-                realLeg = character:FindFirstChild(kickSideRight and "RightLowerLeg" or "LeftLowerLeg")
-            else
-                realLeg = character:FindFirstChild(kickSideRight and "Right Leg" or "Left Leg")
-            end
-            if not realLeg then return end
-
-            realLeg.Massless = true
-            realLeg.Size = Vector3.new(4.1, 2, 4.1)
-            realLeg.Transparency = 1
-
-            local fake = Instance.new("Part")
-            fake.Name = kickSideRight and "Fake Right Leg" or "Fake Left Leg"
-            fake.CanCollide = false
-            fake.Color = realLeg.Color
-            fake.Size = Vector3.new(1, 2, 1)
-            fake.Locked = true
-            fake.Position = realLeg.Position
-            fake.Parent = character
-
-            local attachment = Instance.new("Attachment")
-            attachment.Name = kickSideRight and "RightFootAttachment" or "LeftFootAttachment"
-            attachment.Position = Vector3.new(0, -1, 0)
-            attachment.Parent = fake
-
-            local motor = Instance.new("Motor6D")
-            motor.Name = kickSideRight and "Fake Right Hip" or "Fake Left Hip"
-            if kickSideRight then
-                motor.C0 = CFrame.new(1, -1, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
-                motor.C1 = CFrame.new(0.5, 1, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
-            else
-                motor.C0 = CFrame.new(-1, -1, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
-                motor.C1 = CFrame.new(-0.5, 1, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
-            end
-            motor.MaxVelocity = 0.1
-            motor.Part0 = character:FindFirstChild("Torso") or character:FindFirstChild("LowerTorso") or character:FindFirstChild("UpperTorso")
-            motor.Part1 = fake
-            motor.Parent = motor.Part0
+            applyKickLegResize(4.1)
         end
 
         Callbacks.ReachConfigAttack = function()
-            local character = getCharacter()
-            if not character then return end
-
-            local humanoid = character:FindFirstChildOfClass("Humanoid")
-            if not humanoid then return end
-
-            local kickSideRight = getPreferredFoot() == 1
-            local realLeg
-            if humanoid.RigType ~= Enum.HumanoidRigType.R6 then
-                realLeg = character:FindFirstChild(kickSideRight and "RightLowerLeg" or "LeftLowerLeg")
-            else
-                realLeg = character:FindFirstChild(kickSideRight and "Right Leg" or "Left Leg")
-            end
-            if not realLeg then return end
-
-            realLeg.Massless = true
-            realLeg.Size = Vector3.new(5, 2, 5)
-            realLeg.Transparency = 1
-
-            local fake = Instance.new("Part")
-            fake.Name = kickSideRight and "Fake Right Leg" or "Fake Left Leg"
-            fake.CanCollide = false
-            fake.Color = realLeg.Color
-            fake.Size = Vector3.new(1, 2, 1)
-            fake.Locked = true
-            fake.Position = realLeg.Position
-            fake.Parent = character
-
-            local attachment = Instance.new("Attachment")
-            attachment.Name = kickSideRight and "RightFootAttachment" or "LeftFootAttachment"
-            attachment.Position = Vector3.new(0, -1, 0)
-            attachment.Parent = fake
-
-            local motor = Instance.new("Motor6D")
-            motor.Name = kickSideRight and "Fake Right Hip" or "Fake Left Hip"
-            if kickSideRight then
-                motor.C0 = CFrame.new(1, -1, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
-                motor.C1 = CFrame.new(0.5, 1, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
-            else
-                motor.C0 = CFrame.new(-1, -1, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
-                motor.C1 = CFrame.new(-0.5, 1, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
-            end
-            motor.MaxVelocity = 0.1
-            motor.Part0 = character:FindFirstChild("Torso") or character:FindFirstChild("LowerTorso") or character:FindFirstChild("UpperTorso")
-            motor.Part1 = fake
-            motor.Parent = motor.Part0
+            applyKickLegResize(5)
         end
 
         Callbacks.RestoreLegs = function()
@@ -894,7 +807,58 @@ local function Build7zkHub()
             end
         end
 
-        -- ─── AIR DRIBBLE ─────────────────────────────
+        -- HELPERS (Air Dribble, ZZZZ, Moss, Ball Prediction, Impact Distance, Auto Inf)
+        local zzzzEnabled = false
+        local zzzzMarker = nil
+        local zzzzConnection = nil
+
+        local function createZZZZMarker()
+            if zzzzMarker and zzzzMarker.Parent then return end
+            if zzzzMarker then pcall(function() zzzzMarker:Destroy() end) zzzzMarker = nil end
+
+            local marker = Instance.new("Part")
+            marker.Name = "ZZZZHelperPlatform"
+            marker.Size = Vector3.new(9, 0.1, 9)
+            marker.Anchored = true
+            marker.CanCollide = false
+            marker.Transparency = 1
+            marker.Color = Color3.fromRGB(255, 87, 87)
+            marker.Material = Enum.Material.Neon
+            marker.Parent = workspace
+            zzzzMarker = marker
+        end
+
+        local function destroyZZZZHelper()
+            if zzzzConnection then zzzzConnection:Disconnect() zzzzConnection = nil end
+            if zzzzMarker then
+                if zzzzMarker.Parent then pcall(function() zzzzMarker:Destroy() end) end
+                zzzzMarker = nil
+            end
+            zzzzEnabled = false
+        end
+
+        Callbacks.ZZZZHelper = function(enabled)
+            destroyZZZZHelper()
+            if not enabled then return end
+
+            zzzzEnabled = true
+            createZZZZMarker()
+
+            zzzzConnection = RunService.RenderStepped:Connect(function()
+                if not zzzzEnabled then return end
+                if not zzzzMarker or not zzzzMarker.Parent then
+                    createZZZZMarker()
+                    return
+                end
+
+                local ball = getTPSBall()
+                if not ball or not ball.Parent then return end
+
+                zzzzMarker.CFrame = CFrame.new(ball.Position.X, ball.Position.Y - 1, ball.Position.Z)
+            end)
+        end
+
+        -- AIR DRIBBLE
         local airDribbleEnabled = false
         local airDribbleSize = 9
         local airDribbleTransparency = 1
@@ -930,7 +894,7 @@ local function Build7zkHub()
             marker.Transparency = airDribbleTransparency
             marker.Material = Enum.Material.Neon
             marker.Color = Color3.fromRGB(128, 128, 128)
-            marker.Parent = Workspace
+            marker.Parent = workspace
 
             airDribbleMarker = marker
 
@@ -998,7 +962,7 @@ local function Build7zkHub()
             end
         end
 
-        -- ─── MOSS ────────────────────────────────────
+        -- MOSS
         local mossEngines = {}
         local mossLastFire = 0
 
@@ -1056,17 +1020,17 @@ local function Build7zkHub()
                     return
                 end
 
-                local now = clock()
+                local now = os.clock()
                 if now - mossLastFire < 0.15 then return end
                 mossLastFire = now
 
-                local feFolder = Workspace:FindFirstChild("FE")
+                local feFolder = workspace:FindFirstChild("FE")
                 local system = feFolder and feFolder:FindFirstChild("System")
                 local remote = system and system:FindFirstChild("Header")
 
                 if remote then
                     pcall(function()
-                        remote:FireServer(lp.UserId, ball, "Rock'n'roll Star", "NeverFearTruth", "power=95/100")
+                        remote:FireServer(LocalPlayer.UserId, ball, "Rock'n'roll Star", "NeverFearTruth", "power=95/100")
                     end)
                 end
 
@@ -1101,58 +1065,7 @@ local function Build7zkHub()
             end
         end
 
-        -- ─── ZZZZ ────────────────────────────────────
-        local zzzzEnabled = false
-        local zzzzMarker = nil
-        local zzzzConnection = nil
-
-        local function createZZZZMarker()
-            if zzzzMarker and zzzzMarker.Parent then return end
-            if zzzzMarker then pcall(function() zzzzMarker:Destroy() end) zzzzMarker = nil end
-
-            local marker = Instance.new("Part")
-            marker.Name = "ZZZZHelperPlatform"
-            marker.Size = Vector3.new(9, 0.1, 9)
-            marker.Anchored = true
-            marker.CanCollide = false
-            marker.Transparency = 1
-            marker.Color = Color3.fromRGB(255, 87, 87)
-            marker.Material = Enum.Material.Neon
-            marker.Parent = Workspace
-            zzzzMarker = marker
-        end
-
-        local function destroyZZZZHelper()
-            if zzzzConnection then zzzzConnection:Disconnect() zzzzConnection = nil end
-            if zzzzMarker then
-                if zzzzMarker.Parent then pcall(function() zzzzMarker:Destroy() end) end
-                zzzzMarker = nil
-            end
-            zzzzEnabled = false
-        end
-
-        Callbacks.ZZZZHelper = function(enabled)
-            destroyZZZZHelper()
-            if not enabled then return end
-
-            zzzzEnabled = true
-            createZZZZMarker()
-
-            zzzzConnection = RunService.RenderStepped:Connect(function()
-                if not zzzzEnabled then return end
-                if not zzzzMarker or not zzzzMarker.Parent then
-                    createZZZZMarker()
-                    return
-                end
-
-                local ball = getTPSBall()
-                if not ball or not ball.Parent then return end
-
-                zzzzMarker.CFrame = CFrame.new(ball.Position.X, ball.Position.Y - 1, ball.Position.Z)
-            end)
-        end
-
-        -- ─── BALL PREDICTION ─────────────────────────
+        -- BALL PREDICTION
         local v8PredictionConnection
         local v8PredictionFolder
         local v8PredictionBeam
@@ -1164,7 +1077,7 @@ local function Build7zkHub()
         local function v8CreatePredictionFX()
             local folder = Instance.new("Folder")
             folder.Name = "BallPredictionFX"
-            folder.Parent = Workspace
+            folder.Parent = workspace
 
             local startAttachment = Instance.new("Attachment")
             startAttachment.Name = "PredictStart"
@@ -1233,11 +1146,11 @@ local function Build7zkHub()
                         v8PredictionBall = ball
                     end
 
-                    v8PredictionFolder.Parent = Workspace
+                    v8PredictionFolder.Parent = workspace
 
                     local position = ball.Position
                     local velocity = ball.AssemblyLinearVelocity
-                    local gravity = Vector3.new(0, -Workspace.Gravity, 0)
+                    local gravity = Vector3.new(0, -workspace.Gravity, 0)
 
                     local predicted = position + velocity * 1.2 + (0.5 * gravity) * 1.44
                     local midpoint = position + (0.5 * velocity) * 1.2
@@ -1269,7 +1182,7 @@ local function Build7zkHub()
             v8PredictionBall = nil
         end
 
-        -- ─── IMPACT DISTANCE ─────────────────────────
+        -- IMPACT DISTANCE
         local v8ImpactFolder
         local v8ImpactMarker
         local v8ImpactConnection
@@ -1278,7 +1191,7 @@ local function Build7zkHub()
             if enabled then
                 v8ImpactFolder = Instance.new("Folder")
                 v8ImpactFolder.Name = "ImpactDistanceFX"
-                v8ImpactFolder.Parent = Workspace
+                v8ImpactFolder.Parent = workspace
 
                 v8ImpactMarker = Instance.new("Part")
                 v8ImpactMarker.Shape = Enum.PartType.Cylinder
@@ -1298,11 +1211,11 @@ local function Build7zkHub()
                         return
                     end
 
-                    v8ImpactFolder.Parent = Workspace
+                    v8ImpactFolder.Parent = workspace
 
                     local position = ball.Position
                     local velocity = ball.AssemblyLinearVelocity
-                    local gravity = Vector3.new(0, -Workspace.Gravity, 0)
+                    local gravity = Vector3.new(0, -workspace.Gravity, 0)
 
                     local raycastParams = RaycastParams.new()
                     raycastParams.FilterType = Enum.RaycastFilterType.Exclude
@@ -1313,7 +1226,7 @@ local function Build7zkHub()
                         local p0 = position + velocity * t + (0.5 * gravity) * (t ^ 2)
                         local nextT = t + 0.05
                         local p1 = position + velocity * nextT + (0.5 * gravity) * (nextT ^ 2)
-                        local result = Workspace:Raycast(p0, p1 - p0, raycastParams)
+                        local result = workspace:Raycast(p0, p1 - p0, raycastParams)
                         if result then
                             impactPosition = result.Position
                             break
@@ -1341,7 +1254,7 @@ local function Build7zkHub()
             v8ImpactMarker = nil
         end
 
-        -- ─── AUTO INF ────────────────────────────────
+        -- AUTO INF
         local v8PCConnection
         _G.BallFollowEnabled = false
 
@@ -1380,7 +1293,7 @@ local function Build7zkHub()
             end)
         end
 
-        -- ─── Mobile Auto Inf ─────────────────────────
+        -- Mobile Auto Inf
         local v8MobileEnabled = false
         local v8MobileConnection
         local v8MovementTrack
@@ -1527,7 +1440,81 @@ local function Build7zkHub()
             end)
         end
 
-        -- ─── AVATAR STEAL ────────────────────────────
+        -- EXTRAS (Avatar Steal, Fling, Ping Reducer, Dark Abyss, Override Texture, Disable Player Shadows, Disable PostFX, Sky Changers, Ball Stats)
+        Callbacks.SetClumsy = function(text)
+            settings():GetService("NetworkSettings").IncomingReplicationLag = text
+        end
+
+        Callbacks.SetWalkSpeed = function(value)
+            getgenv().CurrentSpeed = value
+            local character = getCharacter()
+            if not character then return end
+            local humanoid = character:FindFirstChild("Humanoid")
+            if not humanoid then return end
+            humanoid.WalkSpeed = value
+        end
+
+        Callbacks.CopyJobId = function()
+            if setclipboard then setclipboard(game.JobId) end
+        end
+
+        Callbacks.RejoinServer = function()
+            local teleport = game:GetService("TeleportService")
+            teleport:TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
+        end
+
+        Callbacks.JoinJobId = function(jobId)
+            if jobId == "" then return end
+            local teleport = game:GetService("TeleportService")
+            teleport:TeleportToPlaceInstance(game.PlaceId, jobId, LocalPlayer)
+        end
+
+        Callbacks.HopServer = function(sortOrder)
+            local HttpService = game:GetService("HttpService")
+            local TeleportService = game:GetService("TeleportService")
+            local servers = {}
+            local cursor = ""
+
+            repeat
+                local page
+                local ok = pcall(function()
+                    local url = "https://games.roblox.com/v1/games/" .. tostring(game.PlaceId) .. "/servers/Public?sortOrder=" .. tostring(sortOrder) .. "&limit=100" .. (cursor ~= "" and ("&cursor=" .. cursor) or "")
+                    page = HttpService:JSONDecode(game:HttpGet(url))
+                end)
+
+                if ok and page and page.data then
+                    for _, server in ipairs(page.data) do
+                        if server.id ~= game.JobId and server.playing < server.maxPlayers then
+                            table.insert(servers, server)
+                        end
+                    end
+                    cursor = page.nextPageCursor or ""
+                else
+                    cursor = ""
+                end
+            until cursor == ""
+
+            if #servers > 0 then
+                local server = servers[math.random(1, math.min(3, #servers))]
+                TeleportService:TeleportToPlaceInstance(game.PlaceId, server.id, LocalPlayer)
+            else
+                TeleportService:Teleport(game.PlaceId, LocalPlayer)
+            end
+        end
+
+        -- AVATAR STEAL
+        local function v8StopAnimations(humanoid)
+            local animator = humanoid:FindFirstChildOfClass("Animator")
+            if not animator then return end
+            for _, track in ipairs(animator:GetPlayingAnimationTracks()) do
+                track:Stop()
+            end
+        end
+
+        local function v8ApplyDescription(humanoid, description)
+            pcall(function() humanoid:ApplyDescription(description) end)
+        end
+
         local function v8CopyAppearanceObject(object, character, humanoid)
             if object:IsA("Shirt") or object:IsA("Pants") or object:IsA("BodyColors") or object:IsA("CharacterMesh") then
                 object:Clone().Parent = character
@@ -1543,6 +1530,8 @@ local function Build7zkHub()
             local humanoid = character:FindFirstChildOfClass("Humanoid")
             if not humanoid then return end
 
+            v8StopAnimations(humanoid)
+
             local appearanceOK, appearanceModel = pcall(function()
                 return Players:GetCharacterAppearanceAsync(userId)
             end)
@@ -1552,7 +1541,8 @@ local function Build7zkHub()
 
             if not appearanceOK or not appearanceModel then
                 if descriptionOK and description then
-                    pcall(function() humanoid:ApplyDescription(description) end)
+                    v8ApplyDescription(humanoid, description)
+                    v8StopAnimations(humanoid)
                 end
                 return
             end
@@ -1590,9 +1580,13 @@ local function Build7zkHub()
             end
 
             if descriptionOK and description then
-                pcall(function() humanoid:ApplyDescription(description) end)
+                v8ApplyDescription(humanoid, description)
             end
 
+            local oldParent = character.Parent
+            character.Parent = nil
+            character.Parent = oldParent
+            v8StopAnimations(humanoid)
             appearanceModel:Destroy()
         end
 
@@ -1602,7 +1596,7 @@ local function Build7zkHub()
 
             local character = getCharacter()
             if not character then
-                character = lp.CharacterAdded:Wait()
+                character = LocalPlayer.CharacterAdded:Wait()
             end
 
             pcall(function()
@@ -1613,7 +1607,7 @@ local function Build7zkHub()
             end)
         end
 
-        -- ─── FLING ───────────────────────────────────
+        -- FLING
         local flingTask
 
         Callbacks.Fling = function(enabled)
@@ -1683,7 +1677,65 @@ local function Build7zkHub()
             end)
         end
 
-        -- ─── PING REDUCER ────────────────────────────
+        -- BALL STATS
+        local statsFolder
+        local statsBillboard
+        local statsLabel
+        local statsConnection
+
+        Callbacks.BallStats = function(enabled)
+            if enabled then
+                statsFolder = Instance.new("Folder")
+                statsFolder.Name = "BallStatsFX"
+                statsFolder.Parent = workspace
+
+                statsBillboard = Instance.new("BillboardGui")
+                statsBillboard.Size = UDim2.new(0, 200, 0, 50)
+                statsBillboard.StudsOffset = Vector3.new(0, 2.5, 0)
+                statsBillboard.AlwaysOnTop = true
+                statsBillboard.Parent = statsFolder
+
+                statsLabel = Instance.new("TextLabel")
+                statsLabel.Size = UDim2.new(1, 0, 1, 0)
+                statsLabel.BackgroundTransparency = 1
+                statsLabel.TextColor3 = Color3.fromRGB(255, 76, 76)
+                statsLabel.TextStrokeTransparency = 0
+                statsLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+                statsLabel.Font = Enum.Font.SourceSansBold
+                statsLabel.TextSize = 14
+                statsLabel.Parent = statsBillboard
+
+                statsConnection = RunService.RenderStepped:Connect(function()
+                    local ball = getTPSBall()
+                    if not ball then
+                        if statsFolder then statsFolder.Parent = nil end
+                        return
+                    end
+
+                    statsFolder.Parent = workspace
+                    statsBillboard.Adornee = ball
+
+                    local speed = math.floor(ball.AssemblyLinearVelocity.Magnitude)
+                    local altitude = math.floor(ball.Position.Y)
+
+                    local character = getCharacter()
+                    local rootPart = character and character:FindFirstChild("HumanoidRootPart")
+                    local distance = 0
+                    if rootPart then
+                        distance = math.floor((ball.Position - rootPart.Position).Magnitude)
+                    end
+
+                    statsLabel.Text = string.format("Speed: %d SPS\nAlt: %d | Dist: %d studs", speed, altitude, distance)
+                end)
+            else
+                if statsConnection then statsConnection:Disconnect() statsConnection = nil end
+                if statsFolder then statsFolder:Destroy() statsFolder = nil end
+                statsBillboard = nil
+                statsLabel = nil
+            end
+        end
+
+        -- PING REDUCER
         Callbacks.PingReducer = function()
             local removable = {
                 ParticleEmitter = true,
@@ -1691,7 +1743,7 @@ local function Build7zkHub()
                 Fire = true,
             }
             task.spawn(function()
-                local descendants = Workspace:GetDescendants()
+                local descendants = workspace:GetDescendants()
                 for i = #descendants, 1, -1 do
                     local object = descendants[i]
                     if object and removable[object.ClassName] then
@@ -1701,7 +1753,7 @@ local function Build7zkHub()
             end)
         end
 
-        -- ─── DARK ABYSS ──────────────────────────────
+        -- DARK ABYSS
         Callbacks.DarkAbyss = function()
             local lighting = Lighting
             for _, child in pairs(lighting:GetChildren()) do
@@ -1709,7 +1761,7 @@ local function Build7zkHub()
             end
 
             local sky = Instance.new("Sky")
-            sky.Name = "7zkDarkSky"
+            sky.Name = "LoremmDarkSky"
             sky.SkyboxBk = "rbxassetid://0"
             sky.SkyboxDn = "rbxassetid://0"
             sky.SkyboxFt = "rbxassetid://0"
@@ -1724,7 +1776,7 @@ local function Build7zkHub()
             lighting.FogEnd = 1000
         end
 
-        -- ─── OVERRIDE TEXTURE ────────────────────────
+        -- OVERRIDE TEXTURE
         local overrideState = { materials = {}, reflectance = {}, quality = nil, globalShadows = nil }
 
         Callbacks.OverrideTexture = function(enabled)
@@ -1737,7 +1789,7 @@ local function Build7zkHub()
                 pcall(function() settings().Rendering.QualityLevel = Enum.QualityLevel.Level03 end)
                 Lighting.GlobalShadows = false
 
-                for _, object in pairs(Workspace:GetDescendants()) do
+                for _, object in pairs(workspace:GetDescendants()) do
                     if object:IsA("BasePart") then
                         overrideState.materials[object] = object.Material
                         overrideState.reflectance[object] = object.Reflectance
@@ -1758,7 +1810,7 @@ local function Build7zkHub()
                     Lighting.GlobalShadows = overrideState.globalShadows
                 end
 
-                for _, object in pairs(Workspace:GetDescendants()) do
+                for _, object in pairs(workspace:GetDescendants()) do
                     if object:IsA("BasePart") then
                         local material = overrideState.materials[object]
                         if material then object.Material = material end
@@ -1774,7 +1826,7 @@ local function Build7zkHub()
             end
         end
 
-        -- ─── DISABLE PLAYER SHADOWS ──────────────────
+        -- DISABLE PLAYER SHADOWS
         Callbacks.DisablePlayerShadows = function(enabled)
             getgenv().ReachConnections = getgenv().ReachConnections or {}
 
@@ -1807,7 +1859,7 @@ local function Build7zkHub()
             getgenv().ReachConnections.DisablePlayerShadows = Players.PlayerAdded:Connect(bindPlayer)
         end
 
-        -- ─── DISABLE POST FX ─────────────────────────
+        -- DISABLE POST FX
         local savedPostEffects = {}
 
         Callbacks.DisablePostFX = function(enabled)
@@ -1821,7 +1873,7 @@ local function Build7zkHub()
                     end
                 end
 
-                local camera = Workspace.CurrentCamera
+                local camera = workspace.CurrentCamera
                 if camera then
                     for _, object in pairs(camera:GetChildren()) do
                         if object:IsA("PostEffect") then
@@ -1840,7 +1892,7 @@ local function Build7zkHub()
             end
         end
 
-        -- ─── SKY CHANGERS ────────────────────────────
+        -- SKY CHANGERS
         Callbacks.AuroraSky = function()
             local sky = Instance.new("Sky")
             sky.SkyboxBk = "rbxassetid://75955506846727"
@@ -1876,6 +1928,80 @@ local function Build7zkHub()
             sky.SkyboxRt = "http://www.roblox.com/asset/?id=271042467"
             sky.SkyboxUp = "http://www.roblox.com/asset/?id=271077958"
             sky.StarCount = 5000
+        end
+
+        -- FARM
+        local farmPowersConnection = nil
+        Callbacks.FarmPowers = function(enabled)
+            if farmPowersConnection then
+                farmPowersConnection:Disconnect()
+                farmPowersConnection = nil
+            end
+            if not enabled then return end
+
+            farmPowersConnection = workspace.DescendantAdded:Connect(function(descendant)
+                if descendant.Name ~= "Item" then return end
+                local part = descendant:IsA("BasePart") and descendant or descendant:FindFirstChildWhichIsA("BasePart", true)
+                if not part then return end
+                pcall(function()
+                    part.Size = Vector3.new(240000, 240000, 240000)
+                    part.CanCollide = false
+                    part.Massless = true
+                end)
+            end)
+        end
+
+        local farmGoalsConnection = nil
+        local farmGoalsLastKick = 0
+
+        local function getEnemyGoalPosition()
+            if LocalPlayer.TeamColor == BrickColor.new("Bright red") then
+                local blueGoal = workspace:FindFirstChild("BlueGoal")
+                local goalPart = blueGoal and blueGoal:FindFirstChild("Part")
+                if goalPart then return goalPart.Position end
+            elseif LocalPlayer.TeamColor == BrickColor.new("Bright blue") then
+                local redGoal = workspace:FindFirstChild("RedGoal")
+                local goalPart = redGoal and redGoal:FindFirstChild("Part")
+                if goalPart then return goalPart.Position end
+            end
+            return nil
+        end
+
+        Callbacks.FarmGoals = function(enabled)
+            if farmGoalsConnection then
+                farmGoalsConnection:Disconnect()
+                farmGoalsConnection = nil
+            end
+            if not enabled then return end
+
+            farmGoalsConnection = RunService.Heartbeat:Connect(function()
+                local character = getCharacter()
+                if not character then return end
+
+                local rootPart = character:FindFirstChild("HumanoidRootPart")
+                local ball = getTPSBall()
+                local goalPosition = getEnemyGoalPosition()
+
+                if not rootPart or not ball or not goalPosition then return end
+
+                rootPart.AssemblyLinearVelocity = Vector3.zero
+                rootPart.CFrame = CFrame.lookAt(ball.Position + Vector3.new(0, -0.062, 0), goalPosition)
+
+                local now = os.clock()
+                if (rootPart.Position - ball.Position).Magnitude <= 10 and now - farmGoalsLastKick >= 0.002 then
+                    farmGoalsLastKick = now
+
+                    local feFolder = workspace:FindFirstChild("FE")
+                    local system = feFolder and feFolder:FindFirstChild("System")
+                    local remote = system and system:FindFirstChild("Kick")
+
+                    if remote then
+                        pcall(function()
+                            remote:FireServer(LocalPlayer.UserId, ball, 70, Vector3.new(400000, 800, 400000), false, true, 0, "Rock'n'roll Star", "NeverFearTruth", "power=95/100")
+                        end)
+                    end
+                end
+            end)
         end
 
         return Callbacks
@@ -1955,7 +2081,7 @@ local function Build7zkHub()
     --  TAB: REACT
     -- ══════════════════════════════════════════════
     TabReact:Section({ Title = "Reacts" })
-    TabReact:Button({ Title = "7zk React", Callback = Callbacks.React97mzu })
+    TabReact:Button({ Title = "Loremm React", Callback = Callbacks.React97mzu })
     TabReact:Button({ Title = "0_Mauro React", Callback = Callbacks.ReactMauro })
     TabReact:Button({ Title = "Suit React", Callback = Callbacks.ReactSuit })
     TabReact:Button({ Title = "0_lyn React", Callback = Callbacks.ReactLyn })
@@ -2040,6 +2166,12 @@ local function Build7zkHub()
         Value = false,
         Callback = Callbacks.ImpactDistance
     })
+    TabHelpers:Toggle({
+        Title = "Ball Stats",
+        Desc = "Shows speed, altitude, distance",
+        Value = false,
+        Callback = Callbacks.BallStats
+    })
 
     TabHelpers:Section({ Title = "Auto Inf" })
     TabHelpers:Button({
@@ -2051,10 +2183,40 @@ local function Build7zkHub()
         Callback = Callbacks.AutoInfPC
     })
 
+    TabHelpers:Section({ Title = "Auto Farm" })
+    TabHelpers:Toggle({
+        Title = "Auto Farm Powers",
+        Value = false,
+        Callback = Callbacks.FarmPowers
+    })
+    TabHelpers:Toggle({
+        Title = "Auto Farm Goals [5X Better]",
+        Value = false,
+        Callback = Callbacks.FarmGoals
+    })
+
     -- ══════════════════════════════════════════════
     --  TAB: EXTRAS
     -- ══════════════════════════════════════════════
-    TabExtras:Section({ Title = "Avatar & Visuals" })
+    TabExtras:Section({ Title = "Player" })
+    TabExtras:Slider({
+        Title = "WalkSpeed",
+        Min = 22,
+        Max = 27,
+        Default = 22,
+        Callback = function(v)
+            Callbacks.SetWalkSpeed(v)
+        end
+    })
+    TabExtras:Input({
+        Title = "Clumsy (Ping)",
+        Placeholder = "Increase ping value",
+        Callback = function(v)
+            Callbacks.SetClumsy(v)
+        end
+    })
+
+    TabExtras:Section({ Title = "Avatar" })
     TabExtras:Input({
         Title = "Avatar Steal",
         Placeholder = "Enter username to copy avatar",
@@ -2067,6 +2229,17 @@ local function Build7zkHub()
         Desc = "Fling players/ball (BETA)",
         Value = false,
         Callback = Callbacks.Fling
+    })
+
+    TabExtras:Section({ Title = "Server" })
+    TabExtras:Button({ Title = "Hop Server (New)", Callback = function() Callbacks.HopServer("Asc") end })
+    TabExtras:Button({ Title = "Hop Server (Old)", Callback = function() Callbacks.HopServer("Desc") end })
+    TabExtras:Button({ Title = "Rejoin Server", Callback = Callbacks.RejoinServer })
+    TabExtras:Button({ Title = "Copy JobId", Callback = Callbacks.CopyJobId })
+    TabExtras:Input({
+        Title = "Join by JobId",
+        Placeholder = "Paste JobId",
+        Callback = Callbacks.JoinJobId
     })
 
     TabExtras:Section({ Title = "Optimizations" })
@@ -2097,8 +2270,8 @@ local function Build7zkHub()
     --  STARTUP NOTIFY
     -- ══════════════════════════════════════════════
     ShardUI:Notify({
-        Title = "7zkHub Loaded",
-        Content = "Key: 7zk | All features from yo.lua integrated",
+        Title = "LoremmHub Loaded",
+        Content = "Key: 7zk | Creado por Lorem",
         Duration = 5
     })
 end
@@ -2106,4 +2279,4 @@ end
 -- ══════════════════════════════════════════════
 --  START
 -- ══════════════════════════════════════════════
-BuildPatriotKeySystem(Build7zkHub)
+BuildPatriotKeySystem(BuildLoremmHub)
